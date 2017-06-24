@@ -48,25 +48,108 @@ Maze.prototype.turnRight = function() {
 };
 
 Maze.prototype.isPathForward = function() {
+  var response;
   switch (this._miner.dir) {
     case 0:
-      return ((this._miner.row - 1) >= 0 && this._maze[this._miner.row - 1][this._miner.col]) ? true : false;
+      response =  ((this._miner.row - 1) >= 0 && this._maze[this._miner.row - 1][this._miner.col]) ? true : false;
+      break;
     case 1:
-      return ((this._miner.col + 1 < this._maze[0].length) && this._maze[this._miner.row][this._miner.col + 1]) ? true : false;
+      response =  ((this._miner.col + 1 < this._maze[0].length) && this._maze[this._miner.row][this._miner.col + 1]) ? true : false;
+      break;
     case 2:
-      return ((this._miner.row + 1 < this._maze.length) && this._maze[this._miner.row + 1][this._miner.col] ) ? true : false;
+      response = ((this._miner.row + 1 < this._maze.length) && this._maze[this._miner.row + 1][this._miner.col] ) ? true : false;
+      break;
     case 3:
-      return ((this._miner.col - 1 >= 0) && this._maze[this._miner.row][this._miner.col - 1] ) ? true : false;
+      response = ((this._miner.col - 1 >= 0) && this._maze[this._miner.row][this._miner.col - 1] ) ? true : false;
+      break;
+  }
+  return response;
+};
 
+Maze.prototype.isPathLeft = function() {
+  var response;
+  switch (this._miner.dir) {
+    case 0:
+      response =  ((this._miner.col - 1 >= 0) && this._maze[this._miner.row][this._miner.col - 1]) ? true : false;
+      break;
+    case 1:
+      response =  ((this._miner.row - 1 >= 0 ) && this._maze[this._miner.row - 1][this._miner.col]) ? true : false;
+      break;
+    case 2:
+      response = ((this._miner.col + 1 < this._maze[0].length) && this._maze[this._miner.row][this._miner.col + 1] ) ? true : false;
+      break;
+    case 3:
+      response = ((this._miner.row + 1 < this._maze.length) && this._maze[this._miner.row + 1][this._miner.col] ) ? true : false;
+      break;
+  }
+  return response;
+};
+
+Maze.prototype.isPathRight = function() {
+  var response;
+  switch (this._miner.dir) {
+    case 0:
+      response =  ((this._miner.col + 1 < this._maze[0].length) && this._maze[this._miner.row][this._miner.col + 1]) ? true : false;
+      break;
+    case 1:
+      response =  ((this._miner.row + 1 < this._maze.length) && this._maze[this._miner.row + 1][this._miner.col]) ? true : false;
+      break;
+    case 2:
+      response = ((this._miner.col - 1 >= 0) && this._maze[this._miner.row][this._miner.col - 1] ) ? true : false;
+      break;
+    case 3:
+      response = ((this._miner.row - 1 >= 0 ) && this._maze[this._miner.row - 1][this._miner.col] ) ? true : false;
+      break;
+  }
+  return response;
+};
+
+Maze.prototype.moveForward = function() {
+  var response;
+  switch (this._miner.dir) {
+    case 0:
+      if(this.isPathForward()){
+        this._miner.row -= 1;
+        response = true;
+      } else {
+        response = false;
+      }
+      return response;
+    case 1:
+      if(this.isPathForward()){
+        this._miner.col += 1;
+        response = true;
+      } else {
+        response = false;
+      }
+      return response;
+    case 2:
+      if(this.isPathForward()){
+        this._miner.row += 1;
+        response = true;
+      } else {
+        response = false;
+      }
+      return response;
+    case 3:
+      if(this.isPathForward()){
+        this._miner.col -= 1;
+        response = true;
+      } else {
+        response = false;
+      }
+      return response;
   }
 };
 
-Maze.prototype.isPathLeft = function() {}
-
-Maze.prototype.isPathRight = function() {}
-
-Maze.prototype.moveForward = function() {}
-
-Maze.prototype.notDone = function() {}
+Maze.prototype.notDone = function() {
+  var response;
+  if(this._miner.row === this._exit.row && this._miner.col === this._exit.col){
+    response = true;
+  } else {
+    response = false;
+  }
+  return response;
+};
 
 module.exports = Maze;
